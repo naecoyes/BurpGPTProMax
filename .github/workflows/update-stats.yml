@@ -1,0 +1,39 @@
+name: Update GitHub Stats
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天运行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Update README with star count
+        run: |
+          # 获取仓库star数量
+          STAR_COUNT=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r '.stargazers_count')
+
+          # 更新README文件中的star数量
+          sed -i "s/!\[GitHub stars\](.*)/![GitHub stars](https:\/\/img.shields.io\/github\/stars\/${{ github.repository }}?style=social)/" README.md
+          sed -i "s/!\[GitHub stars\](.*)/![GitHub stars](https:\/\/img.shields.io\/github\/stars\/${{ github.repository }}?style=social)/" README-zh.md
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md README-zh.md
+          git commit -m "Update star count badge 🤖 Generated with [Claude Code]" || exit 0
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
