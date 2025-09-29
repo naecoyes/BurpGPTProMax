@@ -1,20 +1,21 @@
+
+
+
+
+
 > [!IMPORTANT]
-> This enhanced community edition now includes all the powerful features of BurpGPT Pro, making it fully functional and up-to-date with the latest improvements.
+> Announcing the launch of [BurpGPT Pro](https://burpgpt.app/), the edition specifically tailored to meet the needs of professionals and cyber boutiques. Discover a host of powerful features and a user-friendly interface that enhances your capabilities and ensures an optimal user experience.  To access these benefits, visit our [website](https://burpgpt.app/) and read the [documentation](https://docs.burpgpt.app/) for more information.
 
-> [!NOTE]
-> The original community edition is no longer maintained, but this enhanced version includes all Pro features:
+> [!WARNING]
+> Please note that the Community edition is no longer maintained or functional. To continue receiving updates, new features, bug fixes, and improvements, consider upgrading to the [Pro edition](https://burpgpt.app/). **It is no longer useful to log `Issues` for the Community edition.**
 
-# burpgpt - Enhanced Community Edition
+# burpgpt
 
 [![Java CI with Gradle](https://github.com/aress31/burpgpt/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/aress31/burpgpt/actions/workflows/gradle-build.yml)
-[![GitHub stars](https://img.shields.io/github/stars/aress31/burpgpt?style=social)](https://github.com/aress31/burpgpt/stargazers)
 
-`burpgpt` is an enhanced community edition that leverages the power of `AI` to detect security vulnerabilities that traditional scanners might miss. It sends web traffic to various AI models (OpenAI, Google Gemini, or local models) specified by the user, enabling sophisticated analysis within the passive scanner. This extension offers customizable `prompts` that enable tailored web traffic analysis to meet the specific needs of each user. Check out the [Example Use Cases](#example-use-cases) section for inspiration.
+`burpgpt` leverages the power of `AI` to detect security vulnerabilities that traditional scanners might miss. It sends web traffic to an `OpenAI` `model` specified by the user, enabling sophisticated analysis within the passive scanner. This extension offers customisable `prompts` that enable tailored web traffic analysis to meet the specific needs of each user. Check out the [Example Use Cases](#example-use-cases) section for inspiration.
 
-The extension generates an automated security report that summarizes potential security issues based on the user's `prompt` and real-time data from `Burp`-issued requests. By leveraging `AI` and natural language processing, the extension streamlines the security assessment process and provides security professionals with a higher-level overview of the scanned application or endpoint. This enables them to more easily identify potential security issues and prioritize their analysis, while also covering a larger potential attack surface.
-
-> [!NOTE]
-> This enhanced community edition includes all the powerful features of the original BurpGPT Pro, making it fully functional and up-to-date with the latest improvements.
+The extension generates an automated security report that summarises potential security issues based on the user's `prompt` and real-time data from `Burp`-issued requests. By leveraging `AI` and natural language processing, the extension streamlines the security assessment process and provides security professionals with a higher-level overview of the scanned application or endpoint. This enables them to more easily identify potential security issues and prioritise their analysis, while also covering a larger potential attack surface.
 
 > [!WARNING]
 > Data traffic is sent to `OpenAI` for analysis. If you have concerns about this or are using the extension for security-critical applications, it is important to carefully consider this and review [OpenAI's Privacy Policy](https://openai.com/policies/privacy-policy) for further information.
@@ -27,28 +28,24 @@ The extension generates an automated security report that summarizes potential s
 
 ## Features
 
-- Adds a `passive scan check`, allowing users to submit `HTTP` data to an AI model for analysis through a `placeholder` system.
-- Leverages the power of various AI models (OpenAI, Google Gemini, ModelScope, Local models) to conduct comprehensive traffic analysis, enabling detection of various issues beyond just security vulnerabilities in scanned applications.
-- Enables granular control over the number of tokens used in the analysis by allowing for precise adjustments of the `maximum prompt length` and `maximum tokens`.
-- Offers users flexible model selection with custom model input field for any AI model.
-- Empowers users to customise `prompts` and unleash limitless possibilities for interacting with AI models. Browse through the [Example Use Cases](#example-use-cases) for inspiration.
+- Adds a `passive scan check`, allowing users to submit `HTTP` data to an `OpenAI`-controlled `GPT model` for analysis through a `placeholder` system.
+- Leverages the power of `OpenAI's GPT models` to conduct comprehensive traffic analysis, enabling detection of various issues beyond just security vulnerabilities in scanned applications.
+- Enables granular control over the number of `GPT tokens` used in the analysis by allowing for precise adjustments of the `maximum prompt length`.
+- Offers users multiple `OpenAI models` to choose from, allowing them to select the one that best suits their needs.
+- Empowers users to customise `prompts` and unleash limitless possibilities for interacting with `OpenAI models`. Browse through the [Example Use Cases](#example-use-cases) for inspiration.
 - Integrates with `Burp Suite`, providing all native features for pre- and post-processing, including displaying analysis results directly within the Burp UI for efficient analysis.
-- Provides troubleshooting functionality via the native `Burp Event Log`, enabling users to quickly resolve communication issues with the AI APIs.
-- Supports persistent configuration storage to preserve settings across `Burp Suite` restarts.
-- Implements intelligent vulnerability identification and classification with severity-based issue categorization.
-- Includes connection validation feature to test API connectivity before saving settings with real-time feedback.
-- Supports local models without requiring API keys for enhanced privacy.
+- Provides troubleshooting functionality via the native `Burp Event Log`, enabling users to quickly resolve communication issues with the `OpenAI API`.
 
 ## Requirements
 
 ### 1. System requirements
 
 - Operating System: Compatible with `Linux`, `macOS`, and `Windows` operating systems.
-- Java Development Kit (JDK): `Version 17` or later.
-- Burp Suite Professional or Community Edition: `Version 2025.9.1` or later.
+- Java Development Kit (JDK): `Version 11` or later.
+- Burp Suite Professional or Community Edition: `Version 2023.3.2` or later.
 
   > [!IMPORTANT]
-  > This enhanced version has been updated to work with the latest Burp Suite 2025.9.1. For older versions, please use the original community edition.
+  > Please note that using any version lower than `2023.3.2` may result in a [java.lang.NoSuchMethodError](https://forum.portswigger.net/thread/montoya-api-nosuchmethoderror-275048be). It is crucial to use the specified version or a more recent one to avoid this issue.
 
 ### 2. Build tool
 
@@ -70,7 +67,7 @@ Please ensure that all system requirements, including a compatible version of `B
 
    ```bash
    git clone https://github.com/aress31/burpgpt
-   cd burpgpt
+   cd .\burpgpt\
    ```
 
 3. Build the standalone `jar`:
@@ -81,97 +78,22 @@ Please ensure that all system requirements, including a compatible version of `B
 
 ### 2. Loading the Extension Into `Burp Suite`
 
-To install `burpgpt` in `Burp Suite`, first go to the `Extensions` tab and click on the `Add` button. Then, select the `burpgpt-all.jar` file located in the `lib/build/libs` folder to load the extension.
+To install `burpgpt` in `Burp Suite`, first go to the `Extensions` tab and click on the `Add` button. Then, select the `burpgpt-all` jar file located in the `.\lib\build\libs` folder to load the extension.
 
 ## Usage
 
 To start using burpgpt, users need to complete the following steps in the Settings panel, which can be accessed from the Burp Suite menu bar:
 
-1. Enter a valid `API key` for your chosen AI provider (not required for Local models).
-2. Enter a custom `model` name:
-   - For OpenAI: gpt-3.5-turbo, gpt-4, etc.
-   - For Gemini: gemini-pro, gemini-1.5-flash, etc.
-   - For ModelScope: Qwen3-Coder-30B-A3B-Instruct, etc.
-   - For Local: your local model name
-3. Select an `API Provider` (OpenAI, Gemini, ModelScope, or Local).
-4. For Local provider, configure the `Local API Endpoint`.
-5. Define the `max prompt size`. This field controls the maximum `prompt` length sent to the AI model.
-6. Set the `max tokens` value for API responses.
-7. Adjust or create custom prompts according to your requirements.
-8. Use the `Validate Connection` button to test your API configuration before saving.
+1. Enter a valid `OpenAI API key`.
+2. Select a `model`.
+3. Define the `max prompt size`. This field controls the maximum `prompt` length sent to `OpenAI` to avoid exceeding the `maxTokens` of `GPT` models (typically around `2048` for `GPT-3`).
+4. Adjust or create custom prompts according to your requirements.
 
 <img src="https://user-images.githubusercontent.com/11601622/230922492-6434ff25-0f2e-4435-8f4d-b3dd6b7ac9c6.png" alt="burpgpt UI" width="75%" height="75%">
 
-Once configured as outlined above, the `Burp passive scanner` sends each request to the chosen AI model via the selected API for analysis, producing findings based on the results.
+Once configured as outlined above, the `Burp passive scanner` sends each request to the chosen `OpenAI model` via the `OpenAI API` for analysis, producing `Informational`-level severity findings based on the results.
 
 <img src="https://user-images.githubusercontent.com/11601622/230796361-2907580f-1993-4cf0-8ac7-f6bae448499d.png" alt="burpgpt finding" width="75%" height="75%">
-
-### API Provider Specific Configuration
-
-#### OpenAI
-- API Key: Your OpenAI API key
-- Model: Any OpenAI model (e.g., gpt-3.5-turbo, gpt-4)
-- Endpoint: Uses default OpenAI API endpoint
-
-#### Google Gemini
-- API Key: Your Google AI Studio API key
-- Model: Any Gemini model (e.g., gemini-pro, gemini-1.5-flash)
-- Endpoint: Uses Gemini API endpoint with model name
-
-#### ModelScope
-- API Key: Your ModelScope API key (e.g., ms-73300a5f-56fe-4b79-a053-8b0914b1d8c7)
-- Model: Any ModelScope model (e.g., Qwen3-Coder-30B-A3B-Instruct)
-- Endpoint: Uses ModelScope API endpoint
-
-#### Local Models
-- API Key: Optional (can be left empty)
-- Model: Your local model name
-- Local API Endpoint: Your local server endpoint (e.g., http://localhost:8000/v1)
-
-## Troubleshooting
-
-### Menu Not Appearing in Burp Suite
-
-If the BurpGPT menu is not appearing in Burp Suite:
-
-1. Ensure you are using Burp Suite Professional or Community Edition version 2025.8 or later
-2. Verify that the extension was loaded successfully by checking the Extensions tab
-3. Restart Burp Suite after loading the extension
-4. Check that you are using the correct `burpgpt-all.jar` file from `lib/build/libs`
-
-### API Connection Issues
-
-If you're experiencing issues connecting to AI APIs:
-
-1. Verify your API key is valid and correctly entered
-2. Check your internet connection
-3. Ensure your firewall is not blocking the connection
-4. Verify the API endpoint is accessible
-5. For local models, ensure your local server is running and accessible
-6. For ModelScope, ensure you're using the correct API key format
-7. For Gemini, ensure you're using the correct model name in the URL
-
-### Model Not Working
-
-If a specific model is not working:
-
-1. Verify the model name is spelled correctly
-2. Check that the model is available for your API provider
-3. Ensure your API key has access to the selected model
-4. For local models, verify the model is loaded on your local server
-5. Use the "Validate Connection" button to test your configuration
-6. Check the Burp Suite error log for detailed debug information
-7. Ensure your API key format is correct for the selected provider
-
-### Debugging Connection Issues
-
-To enable debug mode for detailed logging:
-
-1. Set the `DEBUG` flag to `true` in `MyBurpExtension.java`
-2. Recompile the extension
-3. Check the Burp Suite error log for detailed request/response information
-4. Look for `[DEBUG]` messages to understand what's happening during connection attempts
-
 
 ### Prompt Configuration
 
@@ -257,43 +179,13 @@ The following list of example use cases showcases the bespoke and highly customi
   Identify any potential vulnerabilities related to the {SPA_FRAMEWORK_NAME} SPA framework in the request and response data and report them.
   ```
 
-## Enhanced Features
+## Roadmap
 
-This enhanced community edition now includes all the powerful features of BurpGPT Pro:
-
-### 1. Enhanced Settings Panel
-- Added a new field to the `Settings` panel that allows users to set the `maxTokens` limit for requests, thereby limiting the request size.
-- Replaced fixed model selection with custom model input field for flexibility.
-
-### 2. Multi-API Provider Support
-- Added support for connecting to different AI model providers:
-  - OpenAI API
-  - Google Gemini API
-  - ModelScope API
-  - Local AI model instances (run models on your local machine for improved response times and data privacy)
-- Fixed Gemini API endpoint URLs to properly include model names
-- Added proper authentication handling for all providers
-
-### 3. Persistent Configuration Storage
-- Implemented persistent configuration storage to preserve settings across `Burp Suite` restarts.
-
-### 4. Advanced Response Parsing
-- Enhanced the code for accurate parsing of AI responses with intelligent vulnerability identification and classification.
-- Improved reporting with severity-based issue categorization.
-
-### 5. Connection Validation
-- Added connection validation feature to test API connectivity before saving settings.
-- Automatic validation when saving LLM configuration with real-time feedback.
-- Fixed API key handling for local models (no longer required)
-
-### 6. Model Support Improvements
-- Added support for custom model names for all providers
-- Added ModelScope support with OpenAI-compatible API format
-- Fixed authentication and request formatting for all providers
-- Corrected ModelScope API request format to use proper chat messages array structure
-
-### 7. Future Improvements
-- [ ] Retrieve the precise `maxTokens` value for each `model` to transmit the maximum allowable data and obtain the most extensive AI response possible.
+- [x] Add a new field to the `Settings` panel that allows users to set the `maxTokens` limit for requests, thereby limiting the request size. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
+- [x] Add support for connecting to a local instance of the `AI model`, allowing users to run and interact with the model on their local machines, potentially improving response times and **data privacy**. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
+- [ ] Retrieve the precise `maxTokens` value for each `model` to transmit the maximum allowable data and obtain the most extensive `GPT` response possible.
+- [x] Implement persistent configuration storage to preserve settings across `Burp Suite` restarts. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
+- [x] Enhance the code for accurate parsing of `GPT` responses into the `Vulnerability model` for improved reporting. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
 
 ## Project Information
 
@@ -318,7 +210,3 @@ Awesome! Contributions are welcome and greatly appreciated. Please submit all PR
 ## License
 
 See [LICENSE](LICENSE).
-
----
-
-[中文版本](README-zh.md) | [Star on GitHub](https://github.com/aress31/burpgpt)

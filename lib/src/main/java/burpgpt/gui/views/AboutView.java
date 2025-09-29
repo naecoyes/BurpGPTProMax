@@ -28,7 +28,7 @@ import burpgpt.utilities.HtmlResourceLoader;
 public class AboutView extends JPanel {
 
     private static final int COPYRIGHT_FONT_SIZE = 12;
-    private static final String WEBSITE = "https://burpgpt.app/#pricing";
+    private static final String WEBSITE = "https://burpgpt.app";
 
     public AboutView() {
         setLayout(new GroupLayout(this));
@@ -94,8 +94,8 @@ public class AboutView extends JPanel {
     }
 
     private JButton createUpgradeButton() {
-        JButton upgradeButton = new JButton("Upgrade to the Pro edition");
-        upgradeButton.setToolTipText("Upgrade to the Pro edition by visiting our official website");
+        JButton upgradeButton = new JButton("Visit Official Website");
+        upgradeButton.setToolTipText("Visit our official website for more information");
         upgradeButton.setBackground(UIManager.getColor("Burp.burpOrange"));
         upgradeButton.setForeground(Color.WHITE);
         upgradeButton.setFont(upgradeButton.getFont().deriveFont(Font.BOLD));
