@@ -28,13 +28,14 @@ The extension generates an automated security report that summarises potential s
 
 ## Features
 
-- Adds a `passive scan check`, allowing users to submit `HTTP` data to an `OpenAI`-controlled `GPT model` for analysis through a `placeholder` system.
-- Leverages the power of `OpenAI's GPT models` to conduct comprehensive traffic analysis, enabling detection of various issues beyond just security vulnerabilities in scanned applications.
-- Enables granular control over the number of `GPT tokens` used in the analysis by allowing for precise adjustments of the `maximum prompt length`.
-- Offers users multiple `OpenAI models` to choose from, allowing them to select the one that best suits their needs.
-- Empowers users to customise `prompts` and unleash limitless possibilities for interacting with `OpenAI models`. Browse through the [Example Use Cases](#example-use-cases) for inspiration.
+- Adds a `passive scan check`, allowing users to submit `HTTP` data to various `LLM providers` for analysis through a `placeholder` system.
+- Supports multiple `LLM providers` including `OpenAI`, `Google Gemini`, `ModelScope`, `OpenRouter`, and local models, providing flexibility in choosing the AI service that best suits your needs.
+- Leverages the power of various `LLM models` to conduct comprehensive traffic analysis, enabling detection of various issues beyond just security vulnerabilities in scanned applications.
+- Enables granular control over the number of `LLM tokens` used in the analysis by allowing for precise adjustments of the `maximum prompt length`.
+- Empowers users to customise `prompts` and unleash limitless possibilities for interacting with `LLM models`. Browse through the [Example Use Cases](#example-use-cases) for inspiration.
 - Integrates with `Burp Suite`, providing all native features for pre- and post-processing, including displaying analysis results directly within the Burp UI for efficient analysis.
-- Provides troubleshooting functionality via the native `Burp Event Log`, enabling users to quickly resolve communication issues with the `OpenAI API`.
+- Provides troubleshooting functionality via the native `Burp Event Log`, enabling users to quickly resolve communication issues with the `LLM APIs`.
+- Logs detailed information about HTTP requests being analyzed and API communications with LLM providers for better visibility into the extension's operation.
 
 ## Requirements
 
@@ -84,14 +85,17 @@ To install `burpgpt` in `Burp Suite`, first go to the `Extensions` tab and click
 
 To start using burpgpt, users need to complete the following steps in the Settings panel, which can be accessed from the Burp Suite menu bar:
 
-1. Enter a valid `OpenAI API key`.
-2. Select a `model`.
-3. Define the `max prompt size`. This field controls the maximum `prompt` length sent to `OpenAI` to avoid exceeding the `maxTokens` of `GPT` models (typically around `2048` for `GPT-3`).
-4. Adjust or create custom prompts according to your requirements.
+1. Select an `API Provider` from the dropdown list (OpenAI, Gemini, ModelScope, OpenRouter, or Local).
+2. Enter a valid API key for the selected provider (not required for Local provider).
+3. Select a `model` supported by the chosen provider.
+4. Define the `max prompt size`. This field controls the maximum `prompt` length sent to the LLM to avoid exceeding the `maxTokens` limit of the model.
+5. Adjust or create custom prompts according to your requirements.
 
 <img src="https://user-images.githubusercontent.com/11601622/230922492-6434ff25-0f2e-4435-8f4d-b3dd6b7ac9c6.png" alt="burpgpt UI" width="75%" height="75%">
 
-Once configured as outlined above, the `Burp passive scanner` sends each request to the chosen `OpenAI model` via the `OpenAI API` for analysis, producing `Informational`-level severity findings based on the results.
+Once configured as outlined above, the `Burp passive scanner` sends each request to the chosen `LLM model` via the selected `API provider` for analysis, producing `Informational`-level severity findings based on the results.
+
+The extension logs detailed information about which HTTP requests are being analyzed and the communication with the LLM API in the Burp Suite Event Log. Users can monitor this log to track the extension's operation and troubleshoot any issues.
 
 <img src="https://user-images.githubusercontent.com/11601622/230796361-2907580f-1993-4cf0-8ac7-f6bae448499d.png" alt="burpgpt finding" width="75%" height="75%">
 
@@ -186,6 +190,7 @@ The following list of example use cases showcases the bespoke and highly customi
 - [ ] Retrieve the precise `maxTokens` value for each `model` to transmit the maximum allowable data and obtain the most extensive `GPT` response possible.
 - [x] Implement persistent configuration storage to preserve settings across `Burp Suite` restarts. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
 - [x] Enhance the code for accurate parsing of `GPT` responses into the `Vulnerability model` for improved reporting. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
+- [x] Add support for OpenRouter.ai as an additional LLM provider, expanding the range of available models for analysis. <- Exclusive to the [Pro edition of BurpGPT](https://burpgpt.app).
 
 ## Project Information
 
@@ -210,3 +215,28 @@ Awesome! Contributions are welcome and greatly appreciated. Please submit all PR
 ## License
 
 See [LICENSE](LICENSE).
+
+## Troubleshooting
+
+The extension now logs detailed information about HTTP requests being analyzed and API communications with LLM providers. To view these logs:
+
+1. Open the Burp Suite Event Log (usually found in the bottom panel of the Burp Suite interface)
+2. Look for entries prefixed with `[+]` which indicate:
+   - HTTP requests being analyzed: `[+] Analyzing HTTP request: <URL>`
+   - API requests sent to LLM providers: `[+] Sending request to LLM API: <API_ENDPOINT>`
+   - Responses received from LLM providers: `[+] Received response from LLM API with status: <STATUS_CODE>`
+3. These logs can help you track which requests have been processed by the extension and diagnose any connectivity issues with the LLM APIs.
+
+### API Provider Specific Information
+
+The extension supports multiple API providers:
+- **OpenAI**: Uses the standard OpenAI API endpoint
+- **Gemini**: Uses Google's Gemini API with API key in URL parameter
+- **ModelScope**: Uses ModelScope's API endpoint
+- **OpenRouter**: Uses OpenRouter's API endpoint (https://openrouter.ai/api/v1/chat/completions) with Bearer token authentication
+- **Local**: Uses a local API endpoint that you specify
+
+When using OpenRouter, make sure to:
+1. Select "OpenRouter" as the API Provider in the settings
+2. Enter your OpenRouter API key in the API key field
+3. Specify a model that is supported by OpenRouter (e.g., "openai/gpt-3.5-turbo", "anthropic/claude-2", etc.)

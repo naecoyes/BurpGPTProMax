@@ -88,7 +88,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
 
     private void createApiProviderComboBox(int y) {
         JLabel apiProviderLabel = new JLabel("API Provider:");
-        String[] providers = {"OpenAI", "Gemini", "Local", "ModelScope"};
+        String[] providers = {"OpenAI", "Gemini", "Local", "ModelScope", "OpenRouter"};
         apiProviderComboBox = new JComboBox<>(providers);
         apiProviderComboBox.setSelectedItem(myBurpExtension.getApiProvider());
         add(apiProviderLabel, createGridBagConstraints(0, y));

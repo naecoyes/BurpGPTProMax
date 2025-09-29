@@ -128,6 +128,23 @@ public class GPTClient {
           jsonObject.addProperty("max_tokens", 10);
           break;
 
+        case "OpenRouter":
+          // OpenRouter uses chat format with messages array (OpenAI compatible)
+          JsonObject openRouterMessage = new JsonObject();
+          openRouterMessage.addProperty("role", "user");
+          openRouterMessage.addProperty("content", testPrompt);
+
+          // Create messages array and add the message
+          com.google.gson.JsonArray openRouterMessagesArray = new com.google.gson.JsonArray();
+          openRouterMessagesArray.add(openRouterMessage);
+
+          // Add to main JSON object
+          jsonObject.add("messages", openRouterMessagesArray);
+          jsonObject.addProperty("model", model);
+          jsonObject.addProperty("temperature", 0.0);
+          jsonObject.addProperty("max_tokens", 10);
+          break;
+
         default:
           jsonObject.addProperty("prompt", testPrompt);
           jsonObject.addProperty("max_tokens", 10);
@@ -184,6 +201,8 @@ public class GPTClient {
         return localApiEndpoint + "/completions";
       case "ModelScope":
         return "https://api-inference.modelscope.cn/v1/chat/completions";
+      case "OpenRouter":
+        return "https://openrouter.ai/api/v1/chat/completions";
       default:
         return "https://api.openai.com/v1/completions";
     }
@@ -199,6 +218,8 @@ public class GPTClient {
       case "Local":
         return "Bearer " + apiKey;
       case "ModelScope":
+        return "Bearer " + apiKey;
+      case "OpenRouter":
         return "Bearer " + apiKey;
       default:
         return "Bearer " + apiKey;
@@ -259,6 +280,23 @@ public class GPTClient {
         jsonObject.addProperty("max_tokens", maxTokens);
         break;
 
+      case "OpenRouter":
+        // OpenRouter uses chat format with messages array (OpenAI compatible)
+        JsonObject openRouterMessage = new JsonObject();
+        openRouterMessage.addProperty("role", "user");
+        openRouterMessage.addProperty("content", gptRequest.getPrompt());
+
+        // Create messages array and add the message
+        com.google.gson.JsonArray openRouterMessagesArray = new com.google.gson.JsonArray();
+        openRouterMessagesArray.add(openRouterMessage);
+
+        // Add to main JSON object
+        jsonObject.add("messages", openRouterMessagesArray);
+        jsonObject.addProperty("model", model);
+        jsonObject.addProperty("temperature", 0.7);
+        jsonObject.addProperty("max_tokens", maxTokens);
+        break;
+
       default:
         jsonObject.addProperty("prompt", gptRequest.getPrompt());
         jsonObject.addProperty("max_tokens", maxTokens);
@@ -273,6 +311,9 @@ public class GPTClient {
   public Pair<GPTRequest, GPTResponse> identifyVulnerabilities(HttpRequestResponse selectedMessage) throws IOException {
     HttpRequest selectedRequest = selectedMessage.request();
     HttpResponse selectedResponse = selectedMessage.response();
+
+    // Always log the URL being analyzed
+    logging.logToOutput("[+] Analyzing HTTP request: " + selectedRequest.url());
 
     if (MyBurpExtension.DEBUG) {
       logging.logToOutput("[*] Selected request:");
@@ -329,6 +370,9 @@ public class GPTClient {
 
     Request request = requestBuilder.post(body).build();
 
+    // Always log that we're sending a request to the LLM
+    logging.logToOutput("[+] Sending request to LLM API: " + apiEndpoint);
+
     if (MyBurpExtension.DEBUG) {
       // Write the request body to a buffer
       Buffer buffer = new Buffer();
@@ -344,6 +388,9 @@ public class GPTClient {
         handleErrorResponse(response);
       } else {
         String responseBody = response.body().string();
+
+        // Always log that we received a response from the LLM
+        logging.logToOutput("[+] Received response from LLM API with status: " + response.code());
 
         if (MyBurpExtension.DEBUG) {
           logging.logToOutput("[+] Completion response received:");
